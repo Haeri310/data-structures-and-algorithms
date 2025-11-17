@@ -1,30 +1,46 @@
 # Binary-Search
 
+## ✅ 문제분석
+- 정렬이 가능한 리스트에서 빠르게 탐색을 하고 싶을 때 사용한다
 
-### import bisect
-```
-import bisect
-left = bisect.bisect_left(list, value)
-right = bisect.bisect_right(list, value)
-```
-- left: list에서 value값의 인덱스 중 가장 왼쪽 인덱스를 구한다
-- right: list에서 value값의 인덱스 중 가장 오른쪽 인덱스를 구한다
-- 한 list에 동일한 value가 많을 때 유용한 함수
-- 예시) `list = [1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5]`
+## ✅ 알고리즘
+- 정렬이 되어 있어야 한다
+- A = [1, 2, 3, 4, 5] or [1, 2, 3, 4, 5, 6]
+- left = 가장 왼쪽 인덱스, right = 가장 오른쪽 인덱스, mid = (left + right) / 2
+- mid 와 target 을 비교한다
+  - (mid == target) -> return mid;  
+  - (mid < target) -> left = mid + 1
+  - (target < mid) -> right = mid - 1
+- left 가 right 보다 커지기까지 반복했는데 못 찾았으면 찾고자 하는 값은 없다 -> return -1;
 
 
-```
-# start와 end의 범위는 항상 정답의 범위를 나타낼 수 있도록 해야 한다.
-# start는 범위 -1, end는 범위 + 1 이다.
-start = low - 1
-end = high + 1
+## ✅ 의사코드
 
-# start 와 end 사이에 mid가 존재해야 한다
-while (start + 1 < end):
-  mid = (start + end) // 2
-  if Check(mid):
-    start = mid
-  else:
-    end = mid
-  print(end)
+### 직접 구현
 ```
+private int binarySearch(int target) {
+    int left = 0;
+    int right = numbers.size() - 1;
+    int mid;
+    while (left <= right) {
+        mid = (left + right) / 2;
+        if (numbers.get(mid) == target) {
+            return mid;
+        }
+        if (numbers.get(mid) < target) {
+            left = mid + 1;
+        } else if (numbers.get(mid) > target) {
+            right = mid - 1;
+        }
+    }
+    return -1;
+}
+```
+
+
+### 라이브러리 사용
+```
+int index = Collections.binarySearch(numbers, inputNumber);
+```
+- 인덱스 반환
+- 만약 없다면 음수 반환 
