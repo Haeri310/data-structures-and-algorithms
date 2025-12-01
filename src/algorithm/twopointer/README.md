@@ -103,3 +103,31 @@ private boolean twoPointer(int index, int target) {
     return false;
 }
 ```
+
+### target 이 검사 범위에 포함되어있는데 target 은 제외해야 하는 경우
+```
+private boolean twoPointer(int target) {
+    int left = 0;
+    int right = N - 1;
+    
+    while (left < right) {
+        if (left == target) {
+            left++;
+            continue;
+        }
+        if (right == target) {
+            right--;
+            continue;
+        }
+    
+        if (nums[left] + nums[right] == nums[target]) {
+            return true;
+        } else if (nums[left] + nums[right] < nums[target]) {
+            left++;
+        } else if (nums[left] + nums[right] > nums[target]) {
+            right--;
+        }
+    }
+    return false;
+}
+```
