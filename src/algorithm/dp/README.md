@@ -1,4 +1,4 @@
-# DP
+# ✅ DP (Bottom-Up)
 
 ## 문제분석 
 - 이전의 값을 재활용하는 규칙을 찾아서 점화식을 만들어서 푼다 (예: An = An-1 + An-2)
@@ -11,8 +11,9 @@
 
 ## 의사코드
 
+### Bottom-Up (점화식)
 ```
-private void dp() {
+private void recur() {
     if (N >= 1) {
         dp[1] = nums[1];
     }
@@ -33,5 +34,51 @@ private void dp() {
 System.out.println(dp[N]);
 ```
 
- 
+#### 한 칸씩 dp[i] 값을 넣어주는 게 아니라, dp[i+x] 의 값을 넣어주는 경우
+```
+private int recur() {
+    for (int date = 1; date <= N; date++) {
+        if (date + times[date] > N+1) {
+            continue;
+        }
+        dp[date + times[date]] = Math.max(dp[date + times[date]], dp[date] + prices[date]);
+        dp[date + 1] = Math.max(dp[date + 1], dp[date]);
+    }
+    return dp[N+1];
+}
+```
 
+
+# ✅ DP (Top-Down)
+
+## 문제분석
+- dp[1] 과 같은 초기값이 주어진다
+- dp[N] 을 구하려면 이전의 값을 기준으로 구해야 한다 
+
+## 알고리즘
+- dp[N] 으로부터 재귀적으로 파라미터 N 을 낮춰가며 값을 찾아낸다
+- dp[1] 과 같은 초기값은 미리 세팅해둔다
+- 만약 해당 dp[n] 에 이미 값이 존재한다면 바로 return 을 해주어야 한다
+- Top-Down(재귀함수)는 Bottom-Up(반복문)으로 변경할 수 있으며, 떠올리기 쉬운 방식대로 진행하면 된다
+
+## 의사코드
+
+```
+private int dfs(int digit, int num) {
+    if (digit == 1) {
+        return dp[digit][num];
+    }
+
+    //만약 dp[digit][num] 에 이미 값이 들어있다면 바로 return 한다
+    if (dp[digit][num] == 0) {
+        if (num == 0) {
+            dp[digit][num] = dfs(digit - 1, 1);
+        } else if (num == 9) {
+            dp[digit][num] = dfs(digit - 1, 8);
+        } else {
+            dp[digit][num] = dfs(digit - 1, num - 1) + dfs(digit - 1, num + 1);
+        }
+    }
+    return dp[digit][num];
+}
+```
