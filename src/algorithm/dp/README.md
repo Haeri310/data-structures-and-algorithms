@@ -145,17 +145,17 @@ private int recur(int digit, int num) {
 ```java
 private int recur() {
     int[] dp = new int[N+1];
-    
+    Arrays.fill(dp, 1);
+
     for (int j=1; j<=N; j++) {
-        dp[j] = 1;
         for (int i=1; i<j; i++) {
-            if (A[i] < A[j] && dp[i] >= dp[j]) {
-                dp[j] = dp[i] + 1;
+            if (numbers[j] > numbers[i]) {
+                dp[j] = Math.max(dp[j], dp[i] + 1);
             }
         }
     }
-    
-    return Arrays.stream(dp).max().orElse(-1);
+
+    return Arrays.stream(dp).max().getAsInt();
 }
 
 ```
@@ -163,7 +163,7 @@ private int recur() {
 ### Top-Down
 
 ```java
-private static int recur(int n) {
+private int recur(int n) {
     if (dp[n] != 0) {
         return dp[n];
     }
